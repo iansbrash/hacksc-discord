@@ -1,7 +1,11 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+require('dotenv').config();
+
 
 const { prefix, token } = require('./sensitive/config')
+
+console.log(process.env.DISCORD_TOKEN)
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 client.commands = new Discord.Collection();
