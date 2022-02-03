@@ -532,7 +532,6 @@ module.exports = {
         const url = process.env.BASE_URL || 'https://hacksc.com'
 
         if (args.length !== 0) {
-            console.log(`User ${message.author.id} is trying to reset key ${args[0]}`)
 
             // First make sure that the email is valid
             let email = args[0];
@@ -549,22 +548,13 @@ module.exports = {
             try {
                 const CheckinRes = await axios({
                     method: 'post',
-                    url: `${url}/api/checkin`,
-                    headers: {
-                        // no headers? content-type? I think axios auto appends that header if we have data
-                    },
-                    data: JSON.stringify({
-                        discordId: userId,
-                        email: email
-                    })
+                    url: `${url}/api/checkin?discordId=${userId}&email=${email}`,
                 })
 
                 // Check if data has success: true?
                 if (!CheckinRes.data.success) {
-                    throw CheckinRes.data;
+                    return message.channel.send("Error: " + CheckinRes.data.error);
                 }
-
-                message.channel.send(`userid: ${userId}, args: ${args}`)
                 return message.channel.send(`Successfully checked in!`)
 
             }
